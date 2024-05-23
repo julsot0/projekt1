@@ -29,19 +29,31 @@ public class BookRentalController {
 
     @Transactional
     @PostMapping("/addRental")
-    public ResponseEntity<BookRentals> addBookRentals(@RequestBody BookRentals br) {
+    public ResponseEntity<String> addBookRentals(@RequestBody BookRentals br) {
         for (Book book : br.getBorrowedBooks()) {
             if (!book.isAvailable()) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+                return ResponseEntity.ok().body("You can't borrow an unavailable book");
             }
         }
-
         for (Book book : br.getBorrowedBooks()) {
             bookRepository.updateAvailability(book.getId(), false);
+            BookRentals savedRental = bookRentalsRepository.save(br);
         }
-
-        BookRentals savedRental = bookRentalsRepository.save(br);
-        return ResponseEntity.ok(savedRental);
+        return ResponseEntity.ok().body("Successfully added a new rental");
     }
+
+    /*
+    {
+    "reader": {
+        "id": 1
+    },
+    "borrowedBooks": [
+        {
+            "id": 1
+        }
+    ],
+    "borrowedDate": "2024-05-30"
+}
+     */
 
 }

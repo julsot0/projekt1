@@ -10,25 +10,28 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String title;
-
     @ManyToOne
     @JoinColumn(name="author_id", nullable = true)
     private Author author;
-
     private String category;
-
     private LocalDate releaseDate;
-
-    private boolean isAvailable = true;
+    private boolean available = true;
     public Book() { }
-    public Book(String title, Author author, String category, LocalDate releaseDate, Boolean isAvailable){
+    public Book(String title, Author author, String category, LocalDate releaseDate, Boolean available){
         this.title = title;
         this.author = author;
         this.category = category;
         this.releaseDate = releaseDate;
-        this.isAvailable = isAvailable;
+        this.available = available;
+    }
+
+    public void borrowBook() {
+        this.available = false;
+    }
+
+    public void returnBook() {
+        this.available = true;
     }
 
     public Long getId() {
@@ -72,10 +75,10 @@ public class Book {
     }
 
     public boolean isAvailable() {
-        return isAvailable;
+        return available;
     }
 
     public void setAvailable(boolean available) {
-        isAvailable = available;
+        this.available = available;
     }
 }
