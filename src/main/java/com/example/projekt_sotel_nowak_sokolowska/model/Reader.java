@@ -23,23 +23,11 @@ public class Reader {
 
     private String email;
 
-    private Integer borrowedBooksCount;
-
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE})
-    @JoinTable(
-            name = "reader_books",
-            joinColumns = @JoinColumn(name = "reader_id"),
-            inverseJoinColumns = @JoinColumn(name = "book_id")
-    )
-    private List<Book> borrowedBooks;
-
     public Reader() { }
-    public Reader(String firstname, String lastname, String email, Integer borrowedBooksCount, List<Book> borrowedBooks)
+    public Reader(String firstname, String lastname, String email)
     {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
-        this.borrowedBooksCount = borrowedBooksCount;
-        this.borrowedBooks = borrowedBooks;
     }
 }

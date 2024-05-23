@@ -2,7 +2,9 @@ package com.example.projekt_sotel_nowak_sokolowska.controller;
 
 import com.example.projekt_sotel_nowak_sokolowska.Error.ResourceNotFoundException;
 import com.example.projekt_sotel_nowak_sokolowska.model.Author;
+import com.example.projekt_sotel_nowak_sokolowska.model.Book;
 import com.example.projekt_sotel_nowak_sokolowska.repository.AuthorRepository;
+import com.example.projekt_sotel_nowak_sokolowska.services.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,8 @@ public class AuthorController {
 
     @Autowired
     private AuthorRepository authorRepository;
+    @Autowired
+    private AuthorService authorService;
 
     @GetMapping("/all")
     private List<Author> findAll(){
@@ -29,10 +33,9 @@ public class AuthorController {
     @DeleteMapping("/deleteAuthor/{id}")
     public ResponseEntity<String> deleteAuthor(@PathVariable(value = "id") Long authorId)
             throws ResourceNotFoundException {
-        Author author = authorRepository.findById(authorId)
-                .orElseThrow(() -> new ResourceNotFoundException("Author not found for this id :: " + authorId));
 
-        authorRepository.delete(author);
+        authorService.deleteAuthorAndSetNullForBooks(authorId);
+
         return ResponseEntity.ok().body("Author deleted succesfully");
     }
 
@@ -45,7 +48,6 @@ public class AuthorController {
         author.setFirstname(authorDetails.getFirstname());
         author.setLastname(authorDetails.getLastname());
         author.setBirthYear(authorDetails.getBirthYear());
-        //author.setWrittenBooks(authorDetails.getWrittenBooks());
 
         final Author updatedAuthor = authorRepository.save(author);
         return ResponseEntity.ok(updatedAuthor);
