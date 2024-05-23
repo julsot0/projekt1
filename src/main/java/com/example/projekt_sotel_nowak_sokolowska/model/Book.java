@@ -16,7 +16,7 @@ public class Book {
     private Author author;
     private String category;
     private LocalDate releaseDate;
-    private boolean available = true;
+    private boolean available;
     public Book() { }
     public Book(String title, Author author, String category, LocalDate releaseDate, Boolean available){
         this.title = title;

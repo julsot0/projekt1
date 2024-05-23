@@ -12,6 +12,19 @@ import java.util.List;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findByAuthorId(Long authorId);
+    List<Book> findBooksByAuthorFirstnameContainingIgnoreCase(String s);
+    List<Book> findAllByOrderByAuthorFirstnameAsc();
+    List<Book> findAllByOrderByAuthorFirstnameDesc();
+    List<Book> findBooksByTitleContainingIgnoreCase(String s);
+    List<Book> findBooksByOrderByTitleAsc();
+    List<Book> findBooksByOrderByTitleDesc();
+    List<Book> findBooksByCategoryContainingIgnoreCase(String s);
+    List<Book> findBooksByOrderByCategoryAsc();
+    List<Book> findBooksByOrderByCategoryDesc();
+    List<Book> findBooksByOrderByReleaseDateAsc();
+    List<Book> findBooksByOrderByReleaseDateDesc();
+    List<Book> findByAvailableTrue();
+    List<Book> findByAvailableFalse();
 
     @Transactional
     @Modifying

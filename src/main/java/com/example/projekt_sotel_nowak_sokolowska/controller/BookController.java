@@ -6,6 +6,7 @@ import com.example.projekt_sotel_nowak_sokolowska.model.Book;
 import com.example.projekt_sotel_nowak_sokolowska.model.BookRentals;
 import com.example.projekt_sotel_nowak_sokolowska.repository.BookRentalsRepository;
 import com.example.projekt_sotel_nowak_sokolowska.repository.BookRepository;
+import com.example.projekt_sotel_nowak_sokolowska.services.BookService;
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +24,66 @@ public class BookController {
     @Autowired
     private BookRentalsRepository bookRentalsRepository;
 
+    @Autowired
+    private BookService bookService;
+
     @GetMapping("/all")
     public List<Book> findAll(){
         return bookRepository.findAll();
+    }
+    @GetMapping("/searchAuthor/{s}")
+    public List<Book> findAuthor(@PathVariable String s){
+        return bookService.znajdzPrzezAutora(s);
+    }
+    @GetMapping("/searchAuthorAsc")
+    public List<Book> findAuthorAsc(){
+        return bookService.znajdzPrzezAutoraAsc();
+    }
+    @GetMapping("/searchAuthorDesc")
+    public List<Book> findAuthorDesc(){
+        return bookService.znajdzPrzezAutoraDesc();
+    }
+
+    @GetMapping("/searchTitle/{s}")
+    public List<Book> findTitle(@PathVariable String s){
+        return bookService.znajdzPrzezTytul(s);
+    }
+    @GetMapping("/searchTitleAsc")
+    public List<Book> findTitleAsc(){
+        return bookService.znajdzPrzezTytulAsc();
+    }
+    @GetMapping("/searchTitleDesc")
+    public List<Book> findTitleDesc(){
+        return bookService.znajdzPrzezTytulDesc();
+    }
+
+    @GetMapping("/searchCat/{s}")
+    public List<Book> findCat(@PathVariable String s){
+        return bookService.znajdzPrzezKategorie(s);
+    }
+    @GetMapping("/searchCatAsc")
+    public List<Book> findCatAsc(){
+        return bookService.znajdzPrzezKategorieAsc();
+    }
+    @GetMapping("/searchCatDesc")
+    public List<Book> findCatDesc(){
+        return bookService.znajdzPrzezKategorieDesc();
+    }
+    @GetMapping("/searchDateAsc")
+    public List<Book> findDateAsc(){
+        return bookService.znajdzPrzezRokAsc();
+    }
+    @GetMapping("/searchDateDesc")
+    public List<Book> findDateDesc(){
+        return bookService.znajdzPrzezRokDesc();
+    }
+    @GetMapping("/available")
+    public List<Book> findAvailable(){
+        return bookService.znajdzDostepne();
+    }
+    @GetMapping("/unavailable")
+    public List<Book> findUnavailable(){
+        return bookService.znajdzNiedostepne();
     }
 
     @PostMapping("/addBook")
